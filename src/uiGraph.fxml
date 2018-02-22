@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiGraphController">
+   <center>
+      <AnchorPane fx:id="ap" onMouseClicked="#mouseClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <Button fx:id="start" mnemonicParsing="false" onAction="#startAlgorithm" text="Button" BorderPane.alignment="CENTER" />
+   </bottom>
+   <right>
+      <VBox prefHeight="375.0" prefWidth="218.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="39.0" prefWidth="162.0">
+               <children>
+                  <TextField fx:id="from" onAction="#addEdge" promptText="from" />
+                  <TextField fx:id="to" onAction="#addEdge" promptText="to" />
+                  <TextField fx:id="weight" onAction="#addEdge" promptText="weight" />
+               </children>
+            </HBox>
+            <TableView fx:id="table" prefHeight="374.0" prefWidth="162.0" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
