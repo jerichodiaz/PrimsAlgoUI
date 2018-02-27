@@ -23,6 +23,5 @@ public class uiMain extends Application {
         primaryStage.setTitle("DEALGO");
         primaryStage.setScene(new Scene(loader.load()));
         primaryStage.show();
-
     }
 }
