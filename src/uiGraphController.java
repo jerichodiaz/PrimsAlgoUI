@@ -46,10 +46,8 @@ public class uiGraphController implements Initializable {
         x++;
         pn.setCenterX(evt.getX());
         pn.setCenterY(evt.getY());
-        pn.setRadius(5);
         pn.setName();
         nodes.add(pn);
-        ap.getChildren().add(pn);
     }
 
     @FXML
@@ -75,12 +73,14 @@ public class uiGraphController implements Initializable {
         line.setStartY(a.getCenterY());
         line.setEndX(a.getCenterX());
         line.setEndY(a.getCenterY());
+        line.setStrokeWidth(4);
         ap.getChildren().add(line);
 
         Label label = new Label(Math.round(weight) + "");
         label.setTextFill(Color.RED);
         label.setLayoutX((a.getCenterX() + b.getCenterX()) / 2);
         label.setLayoutY((a.getCenterY() + b.getCenterY()) / 2);
+        label.setStyle("-fx-font-size: 30px;");
         ap.getChildren().add(label);
 
         Timeline tl = new Timeline();
@@ -90,6 +90,7 @@ public class uiGraphController implements Initializable {
         KeyFrame kf2 = new KeyFrame(new Duration(500), kv2);
         tl.getKeyFrames().addAll(kf, kf2);
         tl.play();
+        redrawCircles();
     }
 
     private void clearFinalLines(){
@@ -112,7 +113,7 @@ public class uiGraphController implements Initializable {
         Line line = new Line();
         finallines.add(line);
         line.setStroke(Color.RED);
-        line.setStrokeWidth(3);
+        line.setStrokeWidth(6);
         line.setStartX(edge.start.getCenterX());
         line.setStartY(edge.start.getCenterY());
         line.setEndX(edge.start.getCenterX());
@@ -125,6 +126,7 @@ public class uiGraphController implements Initializable {
         KeyFrame kf2 = new KeyFrame(new Duration(500), kv2);
         tl.getKeyFrames().addAll(kf, kf2);
         tl.play();
+        redrawCircles();
         /*tl.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -133,6 +135,12 @@ public class uiGraphController implements Initializable {
                 }
             }
         });*/
+    }
+    private void redrawCircles(){
+        nodes.forEach(c -> {
+            ap.getChildren().removeAll(c.sp);
+            ap.getChildren().addAll(c.sp);
+        });
     }
 
     @FXML

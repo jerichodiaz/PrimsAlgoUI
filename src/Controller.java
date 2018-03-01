@@ -23,6 +23,7 @@ import java.util.List;
 public class Controller {
     @FXML AnchorPane ap;
     private boolean isStarted = false;
+    private double ms = 500;
     String names = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     List<PrimsNode> nodes = new ArrayList<>();
     int x = 0;
@@ -38,10 +39,8 @@ public class Controller {
             x++;
             newNode.setCenterX(ev.getX());
             newNode.setCenterY(ev.getY());
-            newNode.setRadius(5);
             newNode.setName();
             nodes.add(newNode);
-            ap.getChildren().add(newNode);
         }
     }
     @FXML private void startAlgorithm(){
@@ -67,21 +66,24 @@ public class Controller {
         line.setStartY(edge.start.getCenterY());
         line.setEndX(edge.start.getCenterX());
         line.setEndY(edge.start.getCenterY());
+        line.setStrokeWidth(4);
 
         Label label = new Label(Math.round(edge.weight)+"");
         label.setTextFill(Color.RED);
         label.setLayoutX((edge.start.getCenterX()+edge.end.getCenterX())/2);
         label.setLayoutY((edge.start.getCenterY()+edge.end.getCenterY())/2);
+        label.setStyle("-fx-font-size: 20px;");
 
         ap.getChildren().add(line);
 
         Timeline tl = new Timeline();
         KeyValue kv = new KeyValue(line.endXProperty(), edge.end.getCenterX());
         KeyValue kv2 = new KeyValue(line.endYProperty(), edge.end.getCenterY());
-        KeyFrame kf = new KeyFrame(new Duration(500), kv);
-        KeyFrame kf2 = new KeyFrame(new Duration(500), kv2);
+        KeyFrame kf = new KeyFrame(new Duration(ms), kv);
+        KeyFrame kf2 = new KeyFrame(new Duration(ms), kv2);
         tl.getKeyFrames().addAll(kf, kf2);
         tl.play();
+        redrawCircles();
         tl.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -89,10 +91,17 @@ public class Controller {
                     createLines(edges);
                 }
                 ap.getChildren().add(label);
+                redrawCircles();
             }
         });
     }
 
+    private void redrawCircles(){
+        nodes.forEach(c -> {
+            ap.getChildren().removeAll(c.sp);
+            ap.getChildren().addAll(c.sp);
+        });
+    }
     private double getDistance(PrimsNode node, PrimsNode node2){
         double x=0,y=0;
         x = node.getCenterX()-node2.getCenterX();
